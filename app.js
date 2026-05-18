@@ -5,11 +5,13 @@ const backspace = document.querySelector('#backspace');
 const clearCurrentNum = document.querySelector('#clearCurrentNum');
 const clearAll = document.querySelector('#clearAll');
 const operations = document.querySelectorAll('.operation');
+const dot = document.querySelector('#dot');
 let currentNum = parseFloat(display.textContent);
 let storedNum = undefined;
 let toDoOperation = '';
 let isEqualActive = false;
 let isCurrentNumWrote = false;
+let isDot = false;
 
 nums.forEach(num => {
     num.addEventListener('click', () => {
@@ -26,19 +28,34 @@ nums.forEach(num => {
             });
         }
         if(currentNum < 100000000000000){
-            currentNum = parseFloat(currentNum) * 10 + parseFloat(num.textContent);
+            if(isDot){
+                currentNum = String(currentNum) + String(num.textContent);
+            }
+            else{
+                currentNum = parseFloat(currentNum) * 10 + parseFloat(num.textContent);
+            }
             display.textContent = currentNum;
         }
         isEqualActive = false;
         isCurrentNumWrote = true;
     });
 }); // Writing current number on display
+dot.addEventListener('click', () => { 
+    if(isDot === false){
+        currentNum = String(currentNum) + '.';
+        display.textContent = currentNum;
+        isDot = true;
+    }
+}); // Dotting :)
 backspace.addEventListener('click', () => {
     if(isCurrentNumWrote || isEqualActive){
         if(display.textContent === 'Do not divide by zero'){
             buttons.forEach(button => {
                 button.disabled = false;
             });
+        }
+        if(String(currentNum)[String(currentNum).length - 1] === '.'){
+            isDot = false;
         }
         currentNum = String(currentNum).substring(0, String(currentNum).length - 1);
         if(isEqualActive){
@@ -62,6 +79,7 @@ clearCurrentNum.addEventListener('click', () => {
         toDoOperation = '';
         storedNum = undefined;
     }
+    isDot = false;
     currentNum = 0;
     display.textContent = currentNum;
 }); // Reseting current number
@@ -71,6 +89,7 @@ clearAll.addEventListener('click', () => {
             button.disabled = false;
         });
     }
+    isDot = false;
     toDoOperation = '';
     storedNum = undefined;
     currentNum = 0;
@@ -78,6 +97,10 @@ clearAll.addEventListener('click', () => {
 }); // Reseting whole calculator
 operations.forEach(operation => {
     operation.addEventListener('click', () => {
+        if(String(currentNum)[String(currentNum).length - 1] === '.'){
+            currentNum = String(currentNum).substring(0, String(currentNum).length - 1);
+        }
+        currentNum = parseFloat(currentNum);
         if(toDoOperation === '/' && currentNum === 0){
             toDoOperation = '';
             isEqualActive = true;
@@ -137,8 +160,11 @@ operations.forEach(operation => {
             if(operation.textContent !== '='){
                 currentNum = storedNum;
             }
+            isDot = false;
             display.textContent = storedNum; 
             isCurrentNumWrote = false;
         }
     });
 }); // Operations for addition, subtraction, multiplication, division
+
+//ATTENCION: ROUNDING NUMBERS SOMETIMES DOESNT WORK
