@@ -42,9 +42,20 @@ nums.forEach(num => {
 }); // Writing current number on display
 dot.addEventListener('click', () => { 
     if(isDot === false){
-        currentNum = String(currentNum) + '.';
-        display.textContent = currentNum;
-        isDot = true;
+        if(isCurrentNumWrote === false || isEqualActive){
+            currentNum = 0;
+        }
+        if(isEqualActive){
+            toDoOperation = '';
+            storedNum = undefined;
+        }
+        if(currentNum < 100000000000000){
+            currentNum = String(currentNum) + '.';
+            display.textContent = currentNum;
+            isDot = true;
+        }
+        isEqualActive = false;
+        isCurrentNumWrote = true;
     }
 }); // Dotting :)
 backspace.addEventListener('click', () => {
