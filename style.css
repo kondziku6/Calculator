@@ -1,0 +1,34 @@
+main{
+    width: 480px;
+    height: 460px;
+    position: absolute;
+    left: 50%;
+    top: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
+section.dispSec{
+    width: 100%;
+    height: 60px;
+}
+h1#display{
+    margin: 0;
+    position: relative;
+    top: 100%;
+    transform: translateY(-100%);
+    text-align: right;
+}
+section.memFunSec > button{
+    width: 80px;
+    height: 40px;
+}
+div.btnRow > button{
+    width: 120px;
+    height: 60px;
+}
+section.memFunSec,
+div.btnRow{
+    display: flex;
+    align-items: center;
+    align-content: center;
+    justify-content: space-between;
+}
