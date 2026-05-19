@@ -6,17 +6,21 @@ const clearCurrentNum = document.querySelector('#clearCurrentNum');
 const clearAll = document.querySelector('#clearAll');
 const operations = document.querySelectorAll('.operation');
 const dot = document.querySelector('#dot');
+const square = document.querySelector('#square');
+const sqrt = document.querySelector('#sqrt');
 let currentNum = parseFloat(display.textContent);
 let storedNum = undefined;
 let toDoOperation = '';
 let isEqualActive = false;
 let isCurrentNumWrote = false;
 let isDot = false;
+let isSquOrSqr = false;
 
 nums.forEach(num => {
     num.addEventListener('click', () => {
-        if(isCurrentNumWrote === false || isEqualActive){
+        if(isCurrentNumWrote === false || isEqualActive || isSquOrSqr){
             currentNum = 0;
+            isSquOrSqr = false;
         }
         if(isEqualActive){
             toDoOperation = '';
@@ -59,7 +63,7 @@ dot.addEventListener('click', () => {
     }
 }); // Dotting :)
 backspace.addEventListener('click', () => {
-    if(isCurrentNumWrote || isEqualActive){
+    if((isCurrentNumWrote || isEqualActive) && isSquOrSqr === false){
         if(display.textContent === 'Do not divide by zero'){
             buttons.forEach(button => {
                 button.disabled = false;
@@ -171,11 +175,21 @@ operations.forEach(operation => {
             if(operation.textContent !== '='){
                 currentNum = storedNum;
             }
-            isDot = false;
             display.textContent = storedNum; 
+            isDot = false;
             isCurrentNumWrote = false;
+            isSquOrSqr = false;
         }
     });
 }); // Operations for addition, subtraction, multiplication, division
-
+square.addEventListener('click', () => {
+    currentNum *= currentNum;
+    display.textContent = currentNum;
+    isSquOrSqr = true;
+}); // Squaring
+sqrt.addEventListener('click', () => {
+    currentNum = Math.sqrt(currentNum);
+    display.textContent = currentNum;
+    isSquOrSqr = true;
+}); // Elementalization
 //ATTENCION: ROUNDING NUMBERS SOMETIMES DOESNT WORK
