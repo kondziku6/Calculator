@@ -8,19 +8,22 @@ const operations = document.querySelectorAll('.operation');
 const dot = document.querySelector('#dot');
 const square = document.querySelector('#square');
 const sqrt = document.querySelector('#sqrt');
+const negative = document.querySelector('#negative');
+const inverse = document.querySelector('#inverse');
+const percent = document.querySelector('#percent');
 let currentNum = parseFloat(display.textContent);
 let storedNum = undefined;
 let toDoOperation = '';
 let isEqualActive = false;
 let isCurrentNumWrote = false;
 let isDot = false;
-let isSquOrSqr = false;
+let blockClear = false;
 
 nums.forEach(num => {
     num.addEventListener('click', () => {
-        if(isCurrentNumWrote === false || isEqualActive || isSquOrSqr){
+        if(isCurrentNumWrote === false || isEqualActive || blockClear){
             currentNum = 0;
-            isSquOrSqr = false;
+            blockClear = false;
         }
         if(isEqualActive){
             toDoOperation = '';
@@ -45,7 +48,7 @@ nums.forEach(num => {
     });
 }); // Writing current number on display
 dot.addEventListener('click', () => { 
-    if(isDot === false){
+    if(isDot === false && (isCurrentNumWrote === false || String(currentNum).indexOf('.') < 1)){
         if(isCurrentNumWrote === false || isEqualActive){
             currentNum = 0;
         }
@@ -60,10 +63,11 @@ dot.addEventListener('click', () => {
         }
         isEqualActive = false;
         isCurrentNumWrote = true;
+        blockClear = false;
     }
 }); // Dotting :)
 backspace.addEventListener('click', () => {
-    if((isCurrentNumWrote || isEqualActive) && isSquOrSqr === false){
+    if((isCurrentNumWrote || isEqualActive) && blockClear === false){
         if(display.textContent === 'Do not divide by zero'){
             buttons.forEach(button => {
                 button.disabled = false;
@@ -78,7 +82,7 @@ backspace.addEventListener('click', () => {
             storedNum = undefined;
             currentNum = 0;
         }
-        if(currentNum == ''){
+        if(currentNum === '' || currentNum === '-'){
             currentNum = 0;
         } // If current number is empty show on display 0
         display.textContent = currentNum;
@@ -178,18 +182,34 @@ operations.forEach(operation => {
             display.textContent = storedNum; 
             isDot = false;
             isCurrentNumWrote = false;
-            isSquOrSqr = false;
+            blockClear = false;
         }
     });
 }); // Operations for addition, subtraction, multiplication, division
 square.addEventListener('click', () => {
     currentNum *= currentNum;
     display.textContent = currentNum;
-    isSquOrSqr = true;
+    blockClear = true;
 }); // Squaring
 sqrt.addEventListener('click', () => {
     currentNum = Math.sqrt(currentNum);
     display.textContent = currentNum;
-    isSquOrSqr = true;
+    blockClear = true;
 }); // Elementalization
+percent.addEventListener('click', () => {
+    currentNum /= 100;
+    display.textContent = currentNum;
+    blockClear = true;
+}); // Percents
+inverse.addEventListener('click', () => {
+    currentNum = 1 / currentNum;
+    display.textContent = currentNum;
+    blockClear = true;
+    isDot = false;
+    isCurrentNumWrote = false;
+}); // Number inversing
+negative.addEventListener('click', () => {
+    currentNum -= 2 * currentNum;
+    display.textContent = currentNum;
+}); // Number negating
 //ATTENCION: ROUNDING NUMBERS SOMETIMES DOESNT WORK
