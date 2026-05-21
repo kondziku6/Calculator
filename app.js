@@ -11,6 +11,14 @@ const sqrt = document.querySelector('#sqrt');
 const negative = document.querySelector('#negative');
 const inverse = document.querySelector('#inverse');
 const percent = document.querySelector('#percent');
+const memCl = document.querySelector('#memCl');
+const memRe = document.querySelector('#memRe');
+const memPl = document.querySelector('#memPl');
+const memMi = document.querySelector('#memMi');
+const memSt = document.querySelector('#memSt');
+const mem = document.querySelector('#mem');
+const memLi = document.querySelector('#memLi');
+
 let currentNum = parseFloat(display.textContent);
 let storedNum = undefined;
 let toDoOperation = '';
@@ -18,12 +26,35 @@ let isEqualActive = false;
 let isCurrentNumWrote = false;
 let isDot = false;
 let blockClear = false;
+let mainMemory = null;
+
+let allMem = [];
+const showMem = (mem) => {
+    mem.forEach(m => {
+        let li = document.createElement('li');
+        li.textContent = m;
+        memLi.appendChild(li);
+    });
+}
+const memSwitch = () => {
+    if(allMem.length != 0){
+        memCl.disabled = false;
+        memRe.disabled = false;
+        mem.disabled = false;
+    }
+    else{
+        memCl.disabled = true;
+        memRe.disabled = true;
+        mem.disabled = true;
+    }
+}
 
 nums.forEach(num => {
     num.addEventListener('click', () => {
         if(isCurrentNumWrote === false || isEqualActive || blockClear){
             currentNum = 0;
             blockClear = false;
+            isDot = false;
         }
         if(isEqualActive){
             toDoOperation = '';
@@ -49,7 +80,7 @@ nums.forEach(num => {
 }); // Writing current number on display
 dot.addEventListener('click', () => { 
     if(isDot === false && (isCurrentNumWrote === false || String(currentNum).indexOf('.') < 1)){
-        if(isCurrentNumWrote === false || isEqualActive){
+        if(isCurrentNumWrote === false || isEqualActive || blockClear){
             currentNum = 0;
         }
         if(isEqualActive){
@@ -176,10 +207,8 @@ operations.forEach(operation => {
                     }
                 }
             }
-            if(operation.textContent !== '='){
-                currentNum = storedNum;
-            }
-            display.textContent = storedNum; 
+            currentNum = storedNum;
+            display.textContent = storedNum;
             isDot = false;
             isCurrentNumWrote = false;
             blockClear = false;
@@ -189,21 +218,43 @@ operations.forEach(operation => {
 square.addEventListener('click', () => {
     currentNum *= currentNum;
     display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
     blockClear = true;
+    isDot = false;
+    isCurrentNumWrote = false;
 }); // Squaring
 sqrt.addEventListener('click', () => {
     currentNum = Math.sqrt(currentNum);
     display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
     blockClear = true;
+    isDot = false;
+    isCurrentNumWrote = false;
 }); // Elementalization
 percent.addEventListener('click', () => {
     currentNum /= 100;
     display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
     blockClear = true;
+    isDot = false;
+    isCurrentNumWrote = false;
 }); // Percents
 inverse.addEventListener('click', () => {
     currentNum = 1 / currentNum;
     display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
     blockClear = true;
     isDot = false;
     isCurrentNumWrote = false;
@@ -211,5 +262,47 @@ inverse.addEventListener('click', () => {
 negative.addEventListener('click', () => {
     currentNum -= 2 * currentNum;
     display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
 }); // Number negating
+memSt.addEventListener('click', () => {
+    mainMemory = currentNum;
+    allMem.unshift(currentNum);
+    memLi.innerHTML = '';
+    showMem(allMem);
+    memSwitch();
+}); // Memory store
+memCl.addEventListener('click', () => {
+    mainMemory = null;
+    allMem = [];
+    memLi.innerHTML = '';
+    showMem(allMem);
+    memSwitch();
+}); // Memory clear
+memRe.addEventListener('click', () => {
+    currentNum = mainMemory;
+    display.textContent = currentNum;
+    if(isEqualActive){
+        toDoOperation = '';
+        storedNum = undefined;
+    }
+    blockClear = true;
+    isEqualActive = false;
+    isCurrentNumWrote = true;
+}); // Memory read
+memPl.addEventListener('click', () => {
+    mainMemory += currentNum;
+    allMem[0] = mainMemory;
+    memLi.innerHTML = '';
+    showMem(allMem);
+}); // Memory plus
+memMi.addEventListener('click', () => {
+    mainMemory -= currentNum;
+    allMem[0] = mainMemory;
+    memLi.innerHTML = '';
+    showMem(allMem);
+}); // Memory minus
+
 //ATTENCION: ROUNDING NUMBERS SOMETIMES DOESNT WORK

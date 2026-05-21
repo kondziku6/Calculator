@@ -7,12 +7,13 @@
     <link rel="stylesheet" href="style.css">
 </head>
 <body>
-    <main>
+    <section class="center">
+        <main>
         <section class="dispSec">
             <h1 id="display">0</h1>
         </section>
         <section class="memFunSec">
-            <button>MC</button><button>MR</button><button>M+</button><button>M-</button><button>MS</button><button>M\/</button>
+            <button id="memCl" disabled>MC</button><button id="memRe" disabled>MR</button><button id="memPl">M+</button><button id="memMi">M-</button><button id="memSt">MS</button><button id="mem" disabled>M\/</button>
         </section>
         <div class="btnRow">
             <button id="percent">%</button><button id="clearCurrentNum">CE</button><button id="clearAll">C</button><button id="backspace"><--</button><br>
@@ -32,7 +33,14 @@
         <div class="btnRow">
             <button id="negative"><sup>+</sup>/<sub>-</sub></button><button class="num">0</button><button id="dot">.</button><button class="operation">=</button><br>
         </div>
-    </main>
+        </main>
+        <section class="mem">
+            <h1>Memory:</h1>
+            <ul id="memLi">
+                
+            </ul>
+        </section>
+    </section>
 </body>
 <script src="app.js"></script>
 </html>

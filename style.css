@@ -1,3 +1,11 @@
+section.center{
+    width: 780px;
+    height: 460px;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translateX(-50%) translateY(-50%);
+}
 main{
     width: 480px;
     height: 460px;
@@ -31,4 +39,16 @@ div.btnRow{
     align-items: center;
     align-content: center;
     justify-content: space-between;
+}
+section.mem{
+    float: right;
+    margin-top: 40px;
+}
+ul#memLi{
+    list-style-type: none;
+    font-size: 180%;
+    width: 100px;
+    height: 330px;
+    margin: 10px 0;
+    overflow: auto;
 }
