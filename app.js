@@ -16,7 +16,6 @@ const memRe = document.querySelector('#memRe');
 const memPl = document.querySelector('#memPl');
 const memMi = document.querySelector('#memMi');
 const memSt = document.querySelector('#memSt');
-const mem = document.querySelector('#mem');
 const memLi = document.querySelector('#memLi');
 
 let currentNum = parseFloat(display.textContent);
@@ -40,12 +39,10 @@ const memSwitch = () => {
     if(allMem.length != 0){
         memCl.disabled = false;
         memRe.disabled = false;
-        mem.disabled = false;
     }
     else{
         memCl.disabled = true;
         memRe.disabled = true;
-        mem.disabled = true;
     }
 }
 
